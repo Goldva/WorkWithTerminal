@@ -1,10 +1,11 @@
 package interfaces;
 
 public interface Terminal {
-    void putMoney(int money);
-    void shootMoney(int money);
-    void createClient(String name);
-    void deleteClient(String name);
+    int statusScore();
+    void putMoney();
+    void shootMoney();
+    void createClient();
+    void deleteClient(String clientName);
     void createCard();
     void deleteCard();
 }

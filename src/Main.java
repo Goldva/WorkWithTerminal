@@ -1,16 +1,23 @@
 import exceptions.AccountBlockedException;
 
-/**
- * Created by ermakov on 25.11.2016.
- */
+import java.io.*;
+
 public class Main {
     public static void main(String[] args) throws AccountBlockedException {
-        try {
-            throw new AccountBlockedException();
-        } catch (AccountBlockedException e) {
-            System.out.println(e.getMessage());
+        StreamTokenizer tokenizer;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        tokenizer = new StreamTokenizer(br);
+        while (true) {
+            try {
+                tokenizer.nextToken();
+                System.out.println(tokenizer.nval);
+                System.out.println(tokenizer.sval);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        throw new AccountBlockedException();
     }
 }
