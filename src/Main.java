@@ -5,13 +5,13 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws AccountBlockedException {
         StreamTokenizer tokenizer;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        tokenizer = new StreamTokenizer(br);
+        BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
+
         while (true) {
             try {
-                tokenizer.nextToken();
-                System.out.println(tokenizer.nval);
-                System.out.println(tokenizer.sval);
+                String s = br1.readLine();
+
+                System.out.println(String.format("%03d",Integer.parseInt(s)));
 
 
             } catch (IOException e) {

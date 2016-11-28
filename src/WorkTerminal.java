@@ -1,41 +1,25 @@
+import Utils.ConsoleHelper;
+import exceptions.CanNotBeRemovedClientException;
+import exceptions.IncorrectPinException;
 import exceptions.SuchUserExistsException;
 import interfaces.Terminal;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WorkTerminal implements Terminal {
-    private BufferedReader br;
-    private BufferedWriter bw;
-    private Map<String,Client> clients;
+    private ConsoleHelper consoleHelper;
+    private List<String> listNumberCards;
+    private Map<String, Client> clients;
 
     public WorkTerminal() {
-        this.br = new BufferedReader(new InputStreamReader(System.in));
-        this.bw = new BufferedWriter(new OutputStreamWriter(System.out));
-
+        consoleHelper = new ConsoleHelper();
         clients = new HashMap<>();
-    }
-
-
-    private StreamTokenizer readSymbols(){
-        StreamTokenizer tokenizer = new StreamTokenizer(br);
-        try {
-            tokenizer.nextToken();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tokenizer;
-    }
-
-    private void writeSymbols(String text){
-        try {
-            bw.write(text);
-            bw.newLine();
-            bw.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -54,33 +38,70 @@ public class WorkTerminal implements Terminal {
     }
 
     @Override
-    public void createClient() {
-        while (true) {
-            System.out.println("Введите ваше имя");
-            try {
-                String clientName = readSymbols().sval;
-                if (clients.containsKey(clientName))
-                    throw new SuchUserExistsException();
-                clients.put(clientName, new Client(clientName));
-                return;
-            } catch (SuchUserExistsException e) {
-                System.out.println(e.getMessage());
-            }
+    public void createClient(String clientName) throws SuchUserExistsException {
+        if (clients.containsKey(clientName))
+            throw new SuchUserExistsException();
+        clients.put(clientName, new Client(clientName));
+    }
+
+    @Override
+    public void deleteClient(String clientName) throws CanNotBeRemovedClientException {
+        if (clients.get(clientName).haveACards())
+            throw new CanNotBeRemovedClientException();
+        clients.remove(clientName);
+    }
+
+    @Override
+    public void createCard(String clientName) {
+        try {
+            Client client = clients.get(clientName);
+            String numberCard = createNewNumberCard();
+            client.createCard(numberCard, createNewPin());
+            consoleHelper.write("Создана карта с номером " + numberCard);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void deleteClient(String clientName) {
+    public void deleteCard(String clientName) throws IncorrectPinException {
+        try {
+            consoleHelper.write("Введите номер карты для удаления");
+            String numberCard = consoleHelper.readString();
+            consoleHelper.write("Введите пин-код карты состоящий из 4-х цифр");
+            int pin = consoleHelper.readInt();
+            Client client = clients.get(clientName);
+            client.deleteCard(numberCard, pin);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
-    @Override
-    public void createCard() {
-
+    private String createNewNumberCard(){
+        Random random = new Random();
+        while (true) {
+            String number = String.format("%05d", random.nextInt(99999));
+            if (!listNumberCards.contains(number.getBytes()))
+                return number;
+        }
     }
 
-    @Override
-    public void deleteCard() {
-
+    private int createNewPin() throws IOException {
+        int newPin;
+        while (true) {
+            System.out.println("Введите новый пин-код состоящий из 4 цифр");
+            newPin = consoleHelper.readInt();
+            if (String.valueOf(newPin).length() != 4) {
+                try {
+                    throw new IncorrectPinException();
+                } catch (IncorrectPinException e) {
+                    consoleHelper.write(e.getMessage());
+                    continue;
+                }
+            }
+            return newPin;
+        }
     }
 }

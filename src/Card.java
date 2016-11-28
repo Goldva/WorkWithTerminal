@@ -1,16 +1,17 @@
 import exceptions.IncorrectPinException;
 import exceptions.InsufficientFundsOnTheCardException;
 
+import java.util.Arrays;
+
 public class Card {
-    private String pin;
+    private int pin;
     private int money;
     private String numberCard;
 
-    public Card(String numberCard, String pin) {
+    public Card(String numberCard, int pin) {
         this.pin = pin;
         this.money = 0;
         this.numberCard = numberCard;
-//        createNewPin();
     }
 
     public void putMoney(int money){
@@ -18,7 +19,7 @@ public class Card {
         System.out.println(String.format("Начислено %d рублей", money));
     }
 
-    public void shootMoney(String pin, int money) throws InsufficientFundsOnTheCardException, IncorrectPinException {
+    public void shootMoney(int pin, int money) throws InsufficientFundsOnTheCardException, IncorrectPinException {
         checkPin(pin);
         if (this.money < money)
             throw new InsufficientFundsOnTheCardException();
@@ -26,45 +27,16 @@ public class Card {
         System.out.println(String.format("Выдано %d рублей", money));
     }
 
-    public void checkPin(String pin) throws IncorrectPinException {
-        if (!this.pin.equals(pin))
+    public void checkPin(int pin) throws IncorrectPinException {
+        if (!(pin == this.pin))
             throw new IncorrectPinException();
-
-//        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-//            System.out.println("Введите ваш пин-код состоящий из 4 цифр");
-//            if (!pin.equals(br.readLine()))
-//                throw new IncorrectPinException();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
-    public void newPin(String oldPin, String newPin) throws IncorrectPinException {
+    public void newPin(int oldPin, int newPin) throws IncorrectPinException {
         checkPin(oldPin);
         this.pin = newPin;
 }
 
-//    private void createNewPin() {
-//        Pattern pattern = Pattern.compile("[0-9]{4}");
-//        Matcher matcher;
-//        String newPin = "";
-//        while (newPin.isEmpty()) {
-//            try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
-//                System.out.println("Введите новый пин-код состоящий из 4 цифр");
-//                newPin = br.readLine();
-//                matcher = pattern.matcher(newPin);
-//                if (!matcher.matches())
-//                    throw new IncorrectPinException();
-//                pin = newPin;
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (IncorrectPinException e) {
-//                newPin = "";
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//    }
 
     public String getNumberCard() {
         return numberCard;
