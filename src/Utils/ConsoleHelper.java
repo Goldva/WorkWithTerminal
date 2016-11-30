@@ -11,7 +11,7 @@ public class ConsoleHelper {
         bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
     }
 
-    public int readInt() throws IOException {
+    public int readInt() {
         int result;
         while (true){
             try {
@@ -19,17 +19,30 @@ public class ConsoleHelper {
                 return result;
             } catch (NumberFormatException e){
                 write("Необходимо вводить только цифры");
+            } catch (IOException e) {
+                e.printStackTrace();
+                return -1;
             }
         }
     }
 
-    public String readString() throws IOException {
-        return bufferedReader.readLine();
+    public String readString()  {
+        try {
+            return bufferedReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 
 
-    public void write(String text) throws IOException {
-        bufferedWriter.write(text);
+    public void write(String text) {
+        try {
+            bufferedWriter.write(text + "\n");
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

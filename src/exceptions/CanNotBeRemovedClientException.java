@@ -2,6 +2,6 @@ package exceptions;
 
 public class CanNotBeRemovedClientException extends Exception {
     public CanNotBeRemovedClientException() {
-        super("РќРµР»СЊР·СЏ СѓРґР°Р»РёС‚СЊ РєР»РёРµРЅС‚Р°, РїРѕРєР° Сѓ РЅРµРіРѕ РµСЃС‚СЊ С…РѕС‚СЏР±С‹ РѕРґРЅР° РєР°СЂС‚Р°");
+        super("Нельзя удалить клиента, пока у него есть хотябы одна карта");
     }
 }

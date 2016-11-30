@@ -1,5 +1,6 @@
 package interfaces;
 
+import exceptions.AccountBlockedException;
 import exceptions.CanNotBeRemovedClientException;
 import exceptions.IncorrectPinException;
 import exceptions.SuchUserExistsException;
@@ -7,11 +8,11 @@ import exceptions.SuchUserExistsException;
 import java.io.IOException;
 
 public interface Terminal {
-    int statusScore();
+    void statusScore();
     void putMoney();
     void shootMoney();
-    void createClient(String clientName) throws SuchUserExistsException;
-    void deleteClient(String clientName) throws CanNotBeRemovedClientException;
-    void createCard(String clientName);
-    void deleteCard(String clientName) throws IncorrectPinException;
+    void createClient() throws SuchUserExistsException;
+    void deleteClient() throws CanNotBeRemovedClientException;
+    void createCard();
+    void deleteCard() throws AccountBlockedException;
 }

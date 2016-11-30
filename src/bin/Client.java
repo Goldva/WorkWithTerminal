@@ -1,3 +1,6 @@
+package bin;
+
+import exceptions.AccountBlockedException;
 import exceptions.IncorrectPinException;
 
 import java.util.HashMap;
@@ -16,7 +19,11 @@ public class Client {
         myCards.put(numberCard, new Card(numberCard, pin));
     }
 
-    public void deleteCard(String numberCard, int pin) throws IncorrectPinException {
+    public void addCard(Card card){
+        myCards.put(card.getNumberCard(), card);
+    }
+
+    public void deleteCard(String numberCard, int pin) throws IncorrectPinException, AccountBlockedException {
         myCards.get(numberCard).checkPin(pin);
         myCards.remove(numberCard);
     }
@@ -33,7 +40,7 @@ public class Client {
         return myCards;
     }
 
-    public Card getMyCard(byte[] numberCard){
+    public Card getMyCard(String numberCard){
         return myCards.get(numberCard);
     }
 }
