@@ -4,10 +4,11 @@ import exceptions.AccountBlockedException;
 import exceptions.IncorrectPinException;
 import exceptions.InsufficientFundsOnTheCardException;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Card {
+public class Card implements Serializable{
     private String numberCard;
     private int pin;
     private int money;
@@ -39,7 +40,7 @@ public class Card {
 
     public void blockTheCard(){
         howLongBlockedCard = new GregorianCalendar();
-        howLongBlockedCard.add(Calendar.SECOND, 10);
+        howLongBlockedCard.add(Calendar.MINUTE, 1);
     }
 
     public void putMoney(int money){

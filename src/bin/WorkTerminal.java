@@ -5,9 +5,13 @@ import exceptions.*;
 import interfaces.Terminal;
 import Utils.FileHelper;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.*;
 
-public class WorkTerminal implements Terminal {
+public class WorkTerminal implements Terminal, Externalizable {
     private ConsoleHelper consoleHelper;
     private FileHelper fileHelper;
     private Client conectedClient;
@@ -126,6 +130,7 @@ public class WorkTerminal implements Terminal {
             if (conectedClient.haveACards())
                 throw new CanNotBeRemovedClientException();
             fileHelper.deleteClient();
+            conectedClient = null;
         } catch (CanNotBeRemovedClientException e) {
             consoleHelper.write(e.getMessage());
         }
@@ -187,5 +192,17 @@ public class WorkTerminal implements Terminal {
 
     public Client getConectedClient() {
         return conectedClient;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeObject(conectedClient);
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        conectedClient = (Client)in.readObject();
+        consoleHelper = new ConsoleHelper();
+        fileHelper = new FileHelper(conectedClient.getClientName());
     }
 }

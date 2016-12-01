@@ -3,10 +3,11 @@ package bin;
 import exceptions.AccountBlockedException;
 import exceptions.IncorrectPinException;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Client {
+public class Client implements Serializable{
     private String clientName;
     private Map<String, Card> myCards;
 

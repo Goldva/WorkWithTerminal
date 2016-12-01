@@ -16,7 +16,7 @@ public class FileHelper {
         File fileNumbersCards = new File("DataClients\\allNumberCards.txt");
         if(!fileNumbersCards.exists()) {
             try {
-                fileNumbersCards.createNewFile();
+                boolean created = fileNumbersCards.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -26,15 +26,16 @@ public class FileHelper {
     public void writeClientToFile(Client client) {
         try(FileWriter fileWriter = new FileWriter("DataClients\\" + fileName + ".txt")){
             Map<String, Card> clientCards = client.getMyCards();
+            StringBuilder dataClient;
             for (Map.Entry<String, Card> card : clientCards.entrySet()) {
-                StringBuilder dataClient = new StringBuilder();
+                dataClient = new StringBuilder();
                 Calendar dateBlockedCard = card.getValue().getHowLongBlockedCard();
                 dataClient.append("=======================================\r\n");
-                dataClient.append(card.getValue().getNumberCard() + "\r\n");
-                dataClient.append(card.getValue().getPin() + "\r\n");
-                dataClient.append(card.getValue().getMoney() + "\r\n");
-                dataClient.append(String.valueOf(dateBlockedCard.getTime().getTime()) + "\r\n");
-                dataClient.append(card.getValue().getCountIncorrectPin() + "\r\n");
+                dataClient.append(card.getValue().getNumberCard()).append("\r\n");
+                dataClient.append(card.getValue().getPin()).append("\r\n");
+                dataClient.append(card.getValue().getMoney()).append("\r\n");
+                dataClient.append(String.valueOf(dateBlockedCard.getTime().getTime())).append("\r\n");
+                dataClient.append(card.getValue().getCountIncorrectPin()).append("\r\n");
                 fileWriter.write(dataClient.toString());
                 fileWriter.flush();
             }

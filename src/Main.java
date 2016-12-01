@@ -21,7 +21,8 @@ public class Main {
             }
         }
 
-        while (true) {
+        while (connected) {
+            connected = workTerminal.getConectedClient() != null;
             consoleHelper.write("===========================================\n" +
                     "¬ведите одну из следующих команд\n" +
                     "”далить клиента - delClient\n" +
@@ -33,18 +34,25 @@ public class Main {
 
             text = consoleHelper.readString();
 
-            if (text.equals("delClient")) {
-                workTerminal.deleteClient();
-            } else if (text.equals("createCard")) {
-                workTerminal.createCard();
-            } else if (text.equals("delCard")) {
-                workTerminal.deleteCard();
-            } else if (text.equals("status")) {
-                workTerminal.statusScore();
-            } else if (text.equals("put")) {
-                workTerminal.putMoney();
-            } else if (text.equals("shoot")) {
-                workTerminal.shootMoney();
+            switch (text) {
+                case "delClient":
+                    workTerminal.deleteClient();
+                    break;
+                case "createCard":
+                    workTerminal.createCard();
+                    break;
+                case "delCard":
+                    workTerminal.deleteCard();
+                    break;
+                case "status":
+                    workTerminal.statusScore();
+                    break;
+                case "put":
+                    workTerminal.putMoney();
+                    break;
+                case "shoot":
+                    workTerminal.shootMoney();
+                    break;
             }
         }
 
