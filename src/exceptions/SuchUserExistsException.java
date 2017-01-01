@@ -2,6 +2,6 @@ package exceptions;
 
 public class SuchUserExistsException extends Exception {
     public SuchUserExistsException() {
-        super("Клиент с таким именем уже существует");
+        super("РљР»РёРµРЅС‚ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
     }
 }

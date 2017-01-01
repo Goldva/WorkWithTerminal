@@ -17,17 +17,17 @@ public class WorkTerminal implements Terminal, Externalizable {
     private Client conectedClient;
 
     public WorkTerminal() {
-        consoleHelper = new ConsoleHelper();
+        consoleHelper = ConsoleHelper.getInstance();
         createClient();
     }
 
     public WorkTerminal(String clientName) {
-        consoleHelper = new ConsoleHelper();
+        consoleHelper = ConsoleHelper.getInstance();
         fileHelper = new FileHelper(clientName);
         if (fileHelper.checkClient()) {
             conectedClient = fileHelper.readClientFromFile();
         } else {
-            consoleHelper.write("Такого клиента не существует");
+            consoleHelper.write("РўР°РєРѕРіРѕ РєР»РёРµРЅС‚Р° РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
         }
     }
 
@@ -48,13 +48,13 @@ public class WorkTerminal implements Terminal, Externalizable {
             Card card = checkinCard();
             int money = 1;
             while (money % 100 != 0){
-                consoleHelper.write("Введите сумму которую желаете положить(сумма должна быть кратна 100)");
+                consoleHelper.write("Р’РІРµРґРёС‚Рµ СЃСѓРјРјСѓ РєРѕС‚РѕСЂСѓСЋ Р¶РµР»Р°РµС‚Рµ РїРѕР»РѕР¶РёС‚СЊ(СЃСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РєСЂР°С‚РЅР° 100)");
                 money = consoleHelper.readInt();
                 if(money % 100 != 0)
-                    consoleHelper.write("Не верное значение");
+                    consoleHelper.write("РќРµ РІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ");
             }
             card.putMoney(money);
-            consoleHelper.write(String.format("Начислено %d рублей", money));
+            consoleHelper.write(String.format("РќР°С‡РёСЃР»РµРЅРѕ %d СЂСѓР±Р»РµР№", money));
             fileHelper.writeClientToFile(conectedClient);
         } catch (AccountBlockedException e) {
             consoleHelper.write(e.getMessage());
@@ -67,13 +67,13 @@ public class WorkTerminal implements Terminal, Externalizable {
             Card card = checkinCard();
             int money = 1;
             while (money % 100 != 0){
-                consoleHelper.write("Введите снимаемую сумму(сумма должна быть кратна 100)");
+                consoleHelper.write("Р’РІРµРґРёС‚Рµ СЃРЅРёРјР°РµРјСѓСЋ СЃСѓРјРјСѓ(СЃСѓРјРјР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РєСЂР°С‚РЅР° 100)");
                 money = consoleHelper.readInt();
                 if(money % 100 != 0)
-                    consoleHelper.write("Не верное значение");
+                    consoleHelper.write("РќРµ РІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ");
             }
             card.shootMoney(money);
-            consoleHelper.write(String.format("Выдано %d рублей", money));
+            consoleHelper.write(String.format("Р’С‹РґР°РЅРѕ %d СЂСѓР±Р»РµР№", money));
             fileHelper.writeClientToFile(conectedClient);
         } catch (AccountBlockedException | InsufficientFundsOnTheCardException e) {
             consoleHelper.write(e.getMessage());
@@ -84,11 +84,11 @@ public class WorkTerminal implements Terminal, Externalizable {
         String numeberCard;
         Card card = null;
         while (card == null) {
-            consoleHelper.write("Введите номер карты(5 цифр) на которую собираетесь положить деньги");
+            consoleHelper.write("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РєР°СЂС‚С‹(5 С†РёС„СЂ) РЅР° РєРѕС‚РѕСЂСѓСЋ СЃРѕР±РёСЂР°РµС‚РµСЃСЊ РїРѕР»РѕР¶РёС‚СЊ РґРµРЅСЊРіРё");
             numeberCard = String.valueOf(consoleHelper.readInt());
             card = conectedClient.getMyCard(numeberCard);
             if (card == null)
-                consoleHelper.write("Введенного вами номера карты не существует");
+                consoleHelper.write("Р’РІРµРґРµРЅРЅРѕРіРѕ РІР°РјРё РЅРѕРјРµСЂР° РєР°СЂС‚С‹ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
         }
 
         boolean pinSuccess = false;
@@ -96,7 +96,7 @@ public class WorkTerminal implements Terminal, Externalizable {
             try {
                 if (card.isBlockedCard())
                     throw new AccountBlockedException();
-                consoleHelper.write("Введите пин-код карты(4 цифры)");
+                consoleHelper.write("Р’РІРµРґРёС‚Рµ РїРёРЅ-РєРѕРґ РєР°СЂС‚С‹(4 С†РёС„СЂС‹)");
                 pinSuccess = card.checkPin(consoleHelper.readInt());
             } catch (IncorrectPinException e) {
                 consoleHelper.write(e.getMessage());
@@ -109,7 +109,7 @@ public class WorkTerminal implements Terminal, Externalizable {
     public void createClient()  {
         while (true) {
             try {
-                consoleHelper.write("Введите имя нового клиента");
+                consoleHelper.write("Р’РІРµРґРёС‚Рµ РёРјСЏ РЅРѕРІРѕРіРѕ РєР»РёРµРЅС‚Р°");
                 String clientName = consoleHelper.readString();
                 fileHelper = new FileHelper(clientName);
                 if (fileHelper.checkClient()) {
@@ -140,15 +140,15 @@ public class WorkTerminal implements Terminal, Externalizable {
     public void createCard() {
         String numberCard = createNewNumberCard();
         conectedClient.createCard(numberCard, createNewPin());
-        consoleHelper.write("Создана карта с номером " + numberCard);
+        consoleHelper.write("РЎРѕР·РґР°РЅР° РєР°СЂС‚Р° СЃ РЅРѕРјРµСЂРѕРј " + numberCard);
         fileHelper.writeClientToFile(conectedClient);
     }
 
     @Override
     public void deleteCard() {
-        consoleHelper.write("Введите номер карты для удаления");
+        consoleHelper.write("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РєР°СЂС‚С‹ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ");
         String numberCard = consoleHelper.readString();
-        consoleHelper.write("Введите пин-код карты состоящий из 4-х цифр");
+        consoleHelper.write("Р’РІРµРґРёС‚Рµ РїРёРЅ-РєРѕРґ РєР°СЂС‚С‹ СЃРѕСЃС‚РѕСЏС‰РёР№ РёР· 4-С… С†РёС„СЂ");
         int pin = consoleHelper.readInt();
         try {
             conectedClient.deleteCard(numberCard, pin);
@@ -178,7 +178,7 @@ public class WorkTerminal implements Terminal, Externalizable {
         int newPin;
         while (true) {
             try {
-                consoleHelper.write("Введите новый пин-код состоящий из 4 цифр");
+                consoleHelper.write("Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ РїРёРЅ-РєРѕРґ СЃРѕСЃС‚РѕСЏС‰РёР№ РёР· 4 С†РёС„СЂ");
                 newPin = consoleHelper.readInt();
                 if (String.valueOf(newPin).length() != 4) {
                     throw new IncorrectPinException();

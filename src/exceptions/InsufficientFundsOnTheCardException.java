@@ -2,6 +2,6 @@ package exceptions;
 
 public class InsufficientFundsOnTheCardException extends Exception {
     public InsufficientFundsOnTheCardException() {
-        super("Недостаточно средств на карте");
+        super("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЃСЂРµРґСЃС‚РІ РЅР° РєР°СЂС‚Рµ");
     }
 }

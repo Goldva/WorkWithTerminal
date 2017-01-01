@@ -11,9 +11,11 @@ import java.util.GregorianCalendar;
 public class Card implements Serializable{
     private String numberCard;
     private int pin;
-    private int money;
+    private volatile int money;
     private Calendar howLongBlockedCard;
     private int countIncorrectPin;
+
+    private final Object lockMoney = new Object();
 
     public Card(String numberCard, int pin) {
         this.pin = pin;
@@ -44,13 +46,17 @@ public class Card implements Serializable{
     }
 
     public void putMoney(int money){
-        this.money += money;
+        synchronized (lockMoney) {
+            this.money += money;
+        }
     }
 
     public void shootMoney(int money) throws InsufficientFundsOnTheCardException {
-        if (this.money < money)
-            throw new InsufficientFundsOnTheCardException();
-        this.money -= money;
+        synchronized (lockMoney) {
+            if (this.money < money)
+                throw new InsufficientFundsOnTheCardException();
+            this.money -= money;
+        }
     }
 
     public boolean checkPin(int pin) throws IncorrectPinException, AccountBlockedException {
@@ -78,7 +84,9 @@ public class Card implements Serializable{
     }
 
     public int getMoney() {
-        return money;
+        synchronized (lockMoney) {
+            return money;
+        }
     }
 
     public int getPin() {
