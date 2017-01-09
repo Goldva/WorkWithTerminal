@@ -1,5 +1,6 @@
 package bin;
 
+import decorators.DecoratorCard;
 import exceptions.AccountBlockedException;
 import exceptions.IncorrectPinException;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class Client implements Serializable{
     private String clientName;
-    private Map<String, Card> myCards;
+    private Map<String, DecoratorCard> myCards;
 
     public Client(String clientName) {
         this.clientName = clientName;
@@ -17,10 +18,10 @@ public class Client implements Serializable{
     }
 
     public void createCard(String numberCard, int pin){
-        myCards.put(numberCard, new Card(numberCard, pin));
+        myCards.put(numberCard, new DecoratorCard(new Card(numberCard, pin)));
     }
 
-    public void addCard(Card card){
+    public void addCard(DecoratorCard card) {
         myCards.put(card.getNumberCard(), card);
     }
 
@@ -37,11 +38,11 @@ public class Client implements Serializable{
         return clientName;
     }
 
-    public Map<String, Card> getMyCards() {
+    public Map<String, DecoratorCard> getMyCards() {
         return myCards;
     }
 
-    public Card getMyCard(String numberCard){
+    public DecoratorCard getMyCard(String numberCard) {
         return myCards.get(numberCard);
     }
 }

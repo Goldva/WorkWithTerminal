@@ -1,19 +1,19 @@
 package runnables;
 
 import Utils.ConsoleHelper;
-import bin.Card;
+import decorators.DecoratorCard;
 
 import java.util.Random;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 public class SequentialIncreaser implements Runnable {
-    private Card card;
+    private DecoratorCard card;
     private ConsoleHelper consoleHelper;
     private Lock lock;
     private Condition condition;
 
-    public SequentialIncreaser(Card card, Lock lock, Condition condition) {
+    public SequentialIncreaser(DecoratorCard card, Lock lock, Condition condition) {
         this.card = card;
         this.consoleHelper = ConsoleHelper.getInstance();
         this.lock = lock;
@@ -28,9 +28,8 @@ public class SequentialIncreaser implements Runnable {
                 lock.lock();
                 condition.signalAll();
                 int money = random.nextInt(1000);
-                card.putMoney(money);
-                String text = "Начислено %d рублей, остаток по карте составляет: %d руб.";
-                consoleHelper.write(String.format(text, money, card.getMoney()));
+                String text = card.putMoney(money);
+                consoleHelper.write(text);
                 condition.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -1,16 +1,16 @@
 package threads;
 
 import Utils.ConsoleHelper;
-import bin.Card;
+import decorators.DecoratorCard;
 import exceptions.InsufficientFundsOnTheCardException;
 
 import java.util.Random;
 
 public class Decreaser extends Thread {
-    private Card card;
+    private DecoratorCard card;
     private ConsoleHelper consoleHelper;
 
-    public Decreaser(Card card) {
+    public Decreaser(DecoratorCard card) {
         this.card = card;
         this.consoleHelper = ConsoleHelper.getInstance();
     }
@@ -21,9 +21,9 @@ public class Decreaser extends Thread {
         while (!interrupted()) {
             int money = random.nextInt(1000);
             try {
-                card.shootMoney(money);
-                String text = "Выдано %d рублей. Остаток по карте составляет: %d руб.";
-                consoleHelper.write(String.format(text, money, card.getMoney()));
+
+                String text = card.shootMoney(money);
+                consoleHelper.write(text);
             } catch (InsufficientFundsOnTheCardException e) {
                 consoleHelper.write(String.format("Запрошено %d. %s", money, e.getMessage()));
             }

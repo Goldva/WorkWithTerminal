@@ -1,11 +1,9 @@
-import Utils.ConsoleHelper;
 import bin.Card;
+import decorators.DecoratorCard;
 import runnables.SequentialDecreaser;
 import runnables.SequentialIncreaser;
-import threads.Decreaser;
-import threads.Increaser;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,10 +13,10 @@ public class Main {
         Card card = new Card("4333223", 4444);
         Lock lock = new ReentrantLock(true);
         Condition condition = lock.newCondition();
-//        Decreaser decreaser = new Decreaser(card);
-//        Increaser increaser = new Increaser(card);
-        Thread increaser = new Thread(new SequentialIncreaser(card, lock, condition));
-        Thread decreaser = new Thread(new SequentialDecreaser(card, lock, condition));
+//        Decreaser decreaser = new Decreaser(new DecoratorCard(card));
+//        Increaser increaser = new Increaser(new DecoratorCard(card));
+        Thread increaser = new Thread(new SequentialIncreaser(new DecoratorCard(card), lock, condition));
+        Thread decreaser = new Thread(new SequentialDecreaser(new DecoratorCard(card), lock, condition));
 
         decreaser.setPriority(Thread.MAX_PRIORITY);
         increaser.setPriority(Thread.MIN_PRIORITY);
@@ -83,6 +81,6 @@ public class Main {
 //            }
 //        }
 //
-
+//
     }
 }

@@ -1,15 +1,17 @@
 package bin;
 
 import Utils.ConsoleHelper;
+import Utils.FileHelper;
+import decorators.DecoratorCard;
 import exceptions.*;
 import interfaces.Terminal;
-import Utils.FileHelper;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 
 public class WorkTerminal implements Terminal, Externalizable {
     private ConsoleHelper consoleHelper;
@@ -35,7 +37,7 @@ public class WorkTerminal implements Terminal, Externalizable {
     @Override
     public void statusScore() {
         try {
-            Card card = checkinCard();
+            DecoratorCard card = checkinCard();
             consoleHelper.write(String.valueOf(card.getMoney()));
         } catch (AccountBlockedException e) {
             consoleHelper.write(e.getMessage());
@@ -45,7 +47,7 @@ public class WorkTerminal implements Terminal, Externalizable {
     @Override
     public void putMoney() {
         try {
-            Card card = checkinCard();
+            DecoratorCard card = checkinCard();
             int money = 1;
             while (money % 100 != 0){
                 consoleHelper.write("Введите сумму которую желаете положить(сумма должна быть кратна 100)");
@@ -53,8 +55,8 @@ public class WorkTerminal implements Terminal, Externalizable {
                 if(money % 100 != 0)
                     consoleHelper.write("Не верное значение");
             }
-            card.putMoney(money);
-            consoleHelper.write(String.format("Начислено %d рублей", money));
+            String text = card.putMoney(money);
+            consoleHelper.write(text);
             fileHelper.writeClientToFile(conectedClient);
         } catch (AccountBlockedException e) {
             consoleHelper.write(e.getMessage());
@@ -64,7 +66,7 @@ public class WorkTerminal implements Terminal, Externalizable {
     @Override
     public void shootMoney() {
         try {
-            Card card = checkinCard();
+            DecoratorCard card = checkinCard();
             int money = 1;
             while (money % 100 != 0){
                 consoleHelper.write("Введите снимаемую сумму(сумма должна быть кратна 100)");
@@ -72,17 +74,17 @@ public class WorkTerminal implements Terminal, Externalizable {
                 if(money % 100 != 0)
                     consoleHelper.write("Не верное значение");
             }
-            card.shootMoney(money);
-            consoleHelper.write(String.format("Выдано %d рублей", money));
+            String text = card.shootMoney(money);
+            consoleHelper.write(text);
             fileHelper.writeClientToFile(conectedClient);
         } catch (AccountBlockedException | InsufficientFundsOnTheCardException e) {
             consoleHelper.write(e.getMessage());
         }
     }
 
-    private Card checkinCard() throws AccountBlockedException {
+    private DecoratorCard checkinCard() throws AccountBlockedException {
         String numeberCard;
-        Card card = null;
+        DecoratorCard card = null;
         while (card == null) {
             consoleHelper.write("Введите номер карты(5 цифр) на которую собираетесь положить деньги");
             numeberCard = String.valueOf(consoleHelper.readInt());

@@ -1,15 +1,15 @@
 package threads;
 
 import Utils.ConsoleHelper;
-import bin.Card;
+import decorators.DecoratorCard;
 
 import java.util.Random;
 
 public class Increaser extends Thread {
-    private Card card;
+    private DecoratorCard card;
     private ConsoleHelper consoleHelper;
 
-    public Increaser(Card card) {
+    public Increaser(DecoratorCard card) {
         this.card = card;
         this.consoleHelper = ConsoleHelper.getInstance();
     }
@@ -19,9 +19,9 @@ public class Increaser extends Thread {
         Random random = new Random();
         while (!interrupted()) {
             int money = random.nextInt(1000);
-            card.putMoney(money);
-            String text = "Начислено %d рублей, остаток по карте составляет: %d руб.";
-            consoleHelper.write(String.format(text, money, card.getMoney()));
+
+            String text = card.putMoney(money);
+            consoleHelper.write(text);
         }
     }
 }

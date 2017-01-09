@@ -1,7 +1,7 @@
 package runnables;
 
 import Utils.ConsoleHelper;
-import bin.Card;
+import decorators.DecoratorCard;
 import exceptions.InsufficientFundsOnTheCardException;
 
 import java.util.Random;
@@ -9,12 +9,12 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 public class SequentialDecreaser implements Runnable {
-    private Card card;
+    private DecoratorCard card;
     private ConsoleHelper consoleHelper;
     private Lock lock;
     private Condition condition;
 
-    public SequentialDecreaser(Card card, Lock lock, Condition condition) {
+    public SequentialDecreaser(DecoratorCard card, Lock lock, Condition condition) {
         this.card = card;
         this.consoleHelper = ConsoleHelper.getInstance();
         this.lock = lock;
@@ -31,9 +31,8 @@ public class SequentialDecreaser implements Runnable {
                 lock.lock();
                 try {
                     condition.signalAll();
-                    card.shootMoney(money);
-                    String text = "Выдано %d рублей. Остаток по карте составляет: %d руб.";
-                    consoleHelper.write(String.format(text, money, card.getMoney()));
+                    String text = card.shootMoney(money);
+                    consoleHelper.write(text);
                 } catch (InsufficientFundsOnTheCardException e) {
                     consoleHelper.write(String.format("Запрошено %d. %s", money, e.getMessage()));
                 }

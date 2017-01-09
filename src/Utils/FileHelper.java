@@ -1,11 +1,12 @@
 package Utils;
 
 
-import java.io.*;
-import java.util.*;
-
 import bin.Card;
 import bin.Client;
+import decorators.DecoratorCard;
+
+import java.io.*;
+import java.util.*;
 
 
 public class FileHelper {
@@ -25,9 +26,9 @@ public class FileHelper {
 
     public void writeClientToFile(Client client) {
         try(FileWriter fileWriter = new FileWriter("DataClients\\" + fileName + ".txt")){
-            Map<String, Card> clientCards = client.getMyCards();
+            Map<String, DecoratorCard> clientCards = client.getMyCards();
             StringBuilder dataClient;
-            for (Map.Entry<String, Card> card : clientCards.entrySet()) {
+            for (Map.Entry<String, DecoratorCard> card : clientCards.entrySet()) {
                 dataClient = new StringBuilder();
                 Calendar dateBlockedCard = card.getValue().getHowLongBlockedCard();
                 dataClient.append("=======================================\r\n");
@@ -58,7 +59,8 @@ public class FileHelper {
                 howLongBlockedCard.setTime(new Date(date));
                 int countIncorrectPin = Integer.parseInt(fileReader.readLine());
 
-                client.addCard(new Card(numberCard, pin, money, howLongBlockedCard, countIncorrectPin));
+                Card card = new Card(numberCard, pin, money, howLongBlockedCard, countIncorrectPin);
+                client.addCard(new DecoratorCard(card));
             }
         } catch (IOException e) {
             e.printStackTrace();
