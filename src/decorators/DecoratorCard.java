@@ -8,8 +8,8 @@ import java.util.Calendar;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class DecoratorCard extends AbstractDecorator {
-    private static Lock lockMoney = new ReentrantLock(true);
+public class DecoratorCard implements CardInterface {
+    private Lock lockMoney = new ReentrantLock(true);
     private AbstractCard abstractCard;
 
     public DecoratorCard(AbstractCard abstractCard) {
