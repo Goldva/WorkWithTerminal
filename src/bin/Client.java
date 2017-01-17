@@ -18,7 +18,7 @@ public class Client implements Serializable{
     }
 
     public void createCard(String numberCard, int pin){
-        myCards.put(numberCard, new DecoratorCard(new Card(numberCard, pin)));
+        myCards.put(numberCard, new DecoratorCard(new DebitCard(numberCard, pin)));
     }
 
     public void addCard(DecoratorCard card) {

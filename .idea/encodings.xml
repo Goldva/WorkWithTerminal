@@ -4,8 +4,8 @@
     <file url="file://$PROJECT_DIR$/src/Main.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Utils/ConsoleHelper.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Utils/FileHelper.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/bin/Card.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/bin/Client.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/bin/DebitCard.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/bin/WorkTerminal.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/decorators/AbstractCard.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/decorators/AbstractDecorator.java" charset="UTF-8" />

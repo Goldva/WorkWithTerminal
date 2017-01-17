@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Card extends AbstractCard implements Serializable {
-    public Card(String numberCard, int pin) {
+public class DebitCard extends AbstractCard implements Serializable {
+    public DebitCard(String numberCard, int pin) {
         this.pin = pin;
         this.money = 0;
         this.numberCard = numberCard;
@@ -18,7 +18,7 @@ public class Card extends AbstractCard implements Serializable {
         this.countIncorrectPin = 0;
     }
 
-    public Card(String numberCard, int pin, int money, Calendar howLongBlockedCard, int countIncorrectPin) {
+    public DebitCard(String numberCard, int pin, int money, Calendar howLongBlockedCard, int countIncorrectPin) {
         this.numberCard = numberCard;
         this.pin = pin;
         this.money = money;

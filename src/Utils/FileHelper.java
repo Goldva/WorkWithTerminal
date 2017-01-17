@@ -1,7 +1,7 @@
 package Utils;
 
 
-import bin.Card;
+import bin.DebitCard;
 import bin.Client;
 import decorators.DecoratorCard;
 
@@ -59,7 +59,7 @@ public class FileHelper {
                 howLongBlockedCard.setTime(new Date(date));
                 int countIncorrectPin = Integer.parseInt(fileReader.readLine());
 
-                Card card = new Card(numberCard, pin, money, howLongBlockedCard, countIncorrectPin);
+                DebitCard card = new DebitCard(numberCard, pin, money, howLongBlockedCard, countIncorrectPin);
                 client.addCard(new DecoratorCard(card));
             }
         } catch (IOException e) {

@@ -6,7 +6,7 @@ import exceptions.InsufficientFundsOnTheCardException;
 
 import java.util.Calendar;
 
-public interface CardInterface {
+public interface Card {
     boolean isBlockedCard();
 
     String putMoney(int money);

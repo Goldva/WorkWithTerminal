@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class DecoratorCard implements CardInterface {
+public class DecoratorCard implements Card {
     private Lock lockMoney = new ReentrantLock(true);
     private AbstractCard abstractCard;
 

@@ -1,4 +1,4 @@
-import bin.Card;
+import bin.DebitCard;
 import decorators.DecoratorCard;
 import runnables.SequentialDecreaser;
 import runnables.SequentialIncreaser;
@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Card card = new Card("4333223", 4444);
+        DebitCard card = new DebitCard("4333223", 4444);
         Lock lock = new ReentrantLock(true);
         Condition condition = lock.newCondition();
 //        Decreaser decreaser = new Decreaser(new DecoratorCard(card));
